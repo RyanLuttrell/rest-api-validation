@@ -19,11 +19,24 @@ router.post('/users', (req, res) => {
   // Get the user from the request body.
   const user = req.body;
 
-  // Add the user to the `users` array.
-  users.push(user);
+  const errors = [];
 
+  if (!user.name) {
+    errors.push('Please provide a value for "name"');
+  }
+
+  if(!user.email) {
+    errors.push('Please povide a value for "email"')
+  }
+
+  if (errors.length > 0) {
+    res.status(400).json({errors});
+  } else {
+  // Add the user to the `users` array.
+    users.push(user);
   // Set the status to 201 Created and end the response.
-  res.status(201).end();
+    res.status(201).end();
+  }
 });
 
 module.exports = router;
